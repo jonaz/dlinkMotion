@@ -1,13 +1,8 @@
 <?php
 require_once(dirname(__FILE__).'/config.php');
 
-if(!isset($_SERVER['argv'][1]) || !isset($_SERVER['argv'][2]))
-    die("You must defined username and password and run like this: php run.php user pass\n");
 if(!is_file('/tmp/dlinkmotion.state'))
     file_put_contents('/tmp/dlinkmotion.state','0');
-
-$camUser = $_SERVER['argv'][1];
-$camPass = $_SERVER['argv'][2];
 
 $leases = getActiveLeases();
 

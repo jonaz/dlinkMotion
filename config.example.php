@@ -6,6 +6,8 @@ $mac_list = array(
     );
 //hostname or IP to your DLINK DCS-5020L camera
 $cam = '10.0.0.1';
+$camUser = 'user';
+$camPass = 'password';
 
 //The sensitivity to configure. 0-100
 $sensitivity = 90;
