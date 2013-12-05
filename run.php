@@ -3,6 +3,8 @@ require_once(dirname(__FILE__).'/config.php');
 
 if(!isset($_SERVER['argv'][1]) || !isset($_SERVER['argv'][2]))
     die("You must defined username and password and run like this: php run.php user pass\n");
+if(!is_file('/tmp/dlinkmotion.state'))
+    file_put_contents('/tmp/dlinkmotion.state','0');
 
 $camUser = $_SERVER['argv'][1];
 $camPass = $_SERVER['argv'][2];
@@ -18,8 +20,13 @@ foreach($leases as $lease){
     }
 }
 
-if(!setMotion($cam,$camUser,$camPass,$motion,$sensitivity))
-    echo "camera login failed\n";
+if($motion != file_get_contents('/tmp/dlinkmotion.state')){
+    //echo "state has changed since last run";
+    if(!setMotion($cam,$camUser,$camPass,$motion,$sensitivity))
+        echo "camera login failed\n";
+    else
+        file_put_contents('/tmp/dlinkmotion.state',$motion);
+}
 
 function setMotion($camhost,$user,$pass,$motion,$sensitivity=90){/*{{{*/
     $ch = curl_init();
