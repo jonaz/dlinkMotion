@@ -46,13 +46,14 @@ function setMotion($camhost,$user,$pass,$motion,$sensitivity=90){/*{{{*/
     return true;
 }/*}}}*/
 function ping($host) {/*{{{*/
-    $res = exec('ping -c2 -W0.5 '.$host,$out);
+    $host = trim($host);
+    $res = exec('fping '.$host.' 2>&1',$out);
     //print_r( $out);
     foreach($out as $line){
-        if(stristr($line,'100% packet loss'))
-            return false;
+        if(stristr($line,$host.' is alive'))
+            return true;
     }
-    return true;
+    return false;
 }/*}}}*/
 function getActiveLeases(){/*{{{*/
     $leases = array();
